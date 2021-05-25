@@ -235,7 +235,7 @@ const Referrals = (props) => {
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(`https://www.localrunes.com/signup?referredby=${user.username}`);
+    navigator.clipboard.writeText(`https://www.localrunes.com/signup?referredby=${user.referralCode}`);
     setCopySuccessful(true);
   };
 
@@ -345,7 +345,7 @@ const Referrals = (props) => {
                 <div className="borderAddress">
                   <p className="text-center">
                     https://www.localrunes.com/signup?referredby=
-                    {user.username}
+                    {user.referralCode}
                   </p>
                   {
             copySuccessful

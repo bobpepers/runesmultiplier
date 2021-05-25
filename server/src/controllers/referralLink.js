@@ -30,7 +30,7 @@ export const buyReferralLink = async (req, res, next) => {
                 throw new Error('NOT_ENOUGH_FUNDS');
             }
             if (wallet.available >= referralLinkCost) {
-                const user = db.user.findOne({
+                const user = await db.user.findOne({
                     where: {
                         id: wallet.userId,
                     },

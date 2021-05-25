@@ -189,7 +189,7 @@ const InfoContainer = (props) => {
                 delay={0}
                 offset={0}
               > */}
-              <h2 className="position-relative">Buy & Sell RUNES Easily.</h2>
+              <h2 className="position-relative">Runes Multiplier</h2>
               {/* </ScrollAnimation>
               <ScrollAnimation
                 animateIn="bounceIn"
@@ -198,8 +198,8 @@ const InfoContainer = (props) => {
                 delay={0}
                 offset={0}
               > */}
-              <p className="position-relative">Trade RUNES Online using secure escrow service.</p>
-              <p className="position-relative">With Low fees & many ways of payment methods for you to complete your Trade Digitally.</p>
+              <p className="position-relative">Games and Referral system</p>
+              <p className="position-relative">Play lottery games and earn by referring people</p>
               {/* </ScrollAnimation> */}
             </div>
           </div>

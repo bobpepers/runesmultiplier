@@ -23,6 +23,11 @@ import {
 } from './controllers/referralContests';
 
 import {
+  buyReferralLink,
+} from './controllers/referralLink';
+
+
+import {
   insertIp,
   isIpBanned,
 } from './controllers/ip';
@@ -1932,29 +1937,6 @@ const router = (app, io, pub, sub, expired_subKey, volumeInfo, onlineUsers) => {
       }
     });
 
-  app.post('/api/postad/add',
-    (req, res, next) => {
-      console.log('55');
-      next();
-    },
-    IsAuthenticated,
-    isUserBanned,
-    // storeIp,
-    ensuretfa,
-    updateLastSeen,
-    addPostAd,
-    (req, res) => {
-      console.log('ADDED PUBLISHER');
-      if (res.locals.error) {
-        console.log(res.locals.error);
-        res.status(401).send({
-          error: res.locals.error,
-        });
-      }
-      if (res.locals.postAd) {
-        res.json({ postAd: res.locals.postAd });
-      }
-    });
 
   app.post('/api/postad/deactivate',
     (req, res, next) => {
@@ -1978,6 +1960,44 @@ const router = (app, io, pub, sub, expired_subKey, volumeInfo, onlineUsers) => {
       if (!res.locals.error) {
         if (res.locals.postAd) {
           res.json({ postAd: res.locals.postAd });
+        }
+      }
+    });
+
+    app.post('/api/referral/buy',
+    (req, res, next) => {
+      console.log('55');
+      next();
+    },
+    IsAuthenticated,
+    isUserBanned,
+    // storeIp,
+    ensuretfa,
+    updateLastSeen,
+    buyReferralLink,
+    (req, res) => {
+      console.log('ADDED PUBLISHER');
+      if (res.locals.error) {
+        console.log(res.locals.error);
+        res.status(401).send({
+          error: res.locals.error,
+        });
+      }
+      if (!res.locals.error) {
+        if (res.locals.referredWallet) {
+          if (onlineUsers[res.locals.referredWallet.userId.toString()]) {
+            onlineUsers[res.locals.referredWallet.userId.toString()].emit('updateWallet', {
+              wallet: res.locals.referredWallet,
+            });
+          }
+        }
+
+        if (res.locals.wallet && res.locals.referralCode && res.locals.referralState) {
+          res.json({ 
+            wallet: res.locals.wallet,
+            referralCode: res.locals.referralCode,
+            referralState: res.locals.referralState,
+          });
         }
       }
     });

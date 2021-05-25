@@ -5,7 +5,8 @@ import {
   Tooltip,
 } from '@material-ui/core';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
-import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { connect, useDispatch } from 'react-redux';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -16,6 +17,11 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import PropTypes from 'prop-types';
 import { lighten, makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import {
+  idleBuyReferralLink,
+  executeBuyReferralLink,
+} from '../actions/buyReferralLink';
 
 function createData(username, earned) {
   return {
@@ -151,7 +157,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Referrals = (props) => {
-  const { user } = props;
+  const {
+    user,
+    buyReferralLink,
+  } = props;
   const classes = useStyles();
   const [order, setOrder] = React.useState('desc');
   const [orderBy, setOrderBy] = React.useState('username');
@@ -161,12 +170,21 @@ const Referrals = (props) => {
   const [rows, setRows] = React.useState([]);
   const [copySuccessful, setCopySuccessful] = useState(false);
 
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(idleBuyReferralLink());
+  }, []);
+
   useEffect(() => {
     setRows(user.referredBy ? user.referredBy.map((item) => createData(
       item.userReferrer.username,
       item.earned,
     )) : [])
-  }, [user.referredBy])
+  }, [user.referredBy]);
+
+  const buyReferralLinkFunc = () => {
+    dispatch(executeBuyReferralLink());
+  }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -229,88 +247,107 @@ const Referrals = (props) => {
 
   return (
     <Grid container>
-
-      <Grid item xs={12} className="glassHeader">
-
-        <Grid item xs={12} className="glassHeader">
-          <h3 className="text-center">Referrals</h3>
-        </Grid>
-        {user.referredBy && user.referredBy.length > 0
-          ? (
-            <div className={`${classes.root} transactions`}>
-              <TableContainer>
-                <Table
-                  className={classes.table}
-                  aria-labelledby="tableTitle"
-                  size="small"
-                  aria-label="enhanced table"
+      { !user.referralState
+        ? (
+          <Grid item xs={12} className="glassHeader">
+            { !buyReferralLink.isFetching
+              ? (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={buyReferralLinkFunc}
                 >
-                  <EnhancedTableHead
-                    classes={classes}
-                    numSelected={selected.length}
-                    order={order}
-                    orderBy={orderBy}
-                    onSelectAllClick={handleSelectAllClick}
-                    onRequestSort={handleRequestSort}
-                    rowCount={rows.length}
-                  />
-                  <TableBody>
-                    {stableSort(rows, getComparator(order, orderBy))
-                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                      .map((row, index) => {
-                        const isItemSelected = isSelected(row.name);
-                        const labelId = `enhanced-table-checkbox-${index}`;
+                  Buy Referral Link (50 000 RUNES)
+                </Button>
+              )
+              : (
+                <CircularProgress />
+              )}
 
-                        return (
-                          <TableRow
-                            hover
-                            onClick={(event) => handleClick(event, row.username)}
-                            aria-checked={isItemSelected}
-                            tabIndex={-1}
-                            key={row.username}
-                            selected={isItemSelected}
-                            className="blue-border-table"
-                          >
-                            <TableCell component="th" id={labelId} scope="row" padding="none" className="border-none">
-                              {row.username}
-                            </TableCell>
-                            <TableCell align="right" className="border-none">{row.earned}</TableCell>
+          </Grid>
+        )
+        : (
+          <>
+            <Grid item xs={12} className="glassHeader">
+              <Grid item xs={12} className="glassHeader">
+                <h3 className="text-center">Referrals</h3>
+              </Grid>
+              {user.referredBy && user.referredBy.length > 0
+                ? (
+                  <div className={`${classes.root} transactions`}>
+                    <TableContainer>
+                      <Table
+                        className={classes.table}
+                        aria-labelledby="tableTitle"
+                        size="small"
+                        aria-label="enhanced table"
+                      >
+                        <EnhancedTableHead
+                          classes={classes}
+                          numSelected={selected.length}
+                          order={order}
+                          orderBy={orderBy}
+                          onSelectAllClick={handleSelectAllClick}
+                          onRequestSort={handleRequestSort}
+                          rowCount={rows.length}
+                        />
+                        <TableBody>
+                          {stableSort(rows, getComparator(order, orderBy))
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row, index) => {
+                              const isItemSelected = isSelected(row.name);
+                              const labelId = `enhanced-table-checkbox-${index}`;
+
+                              return (
+                                <TableRow
+                                  hover
+                                  onClick={(event) => handleClick(event, row.username)}
+                                  aria-checked={isItemSelected}
+                                  tabIndex={-1}
+                                  key={row.username}
+                                  selected={isItemSelected}
+                                  className="blue-border-table"
+                                >
+                                  <TableCell component="th" id={labelId} scope="row" padding="none" className="border-none">
+                                    {row.username}
+                                  </TableCell>
+                                  <TableCell align="right" className="border-none">{row.earned}</TableCell>
+                                </TableRow>
+                              );
+                            })}
+                          {emptyRows > 0 && (
+                          <TableRow style={{ height: 33 * emptyRows }}>
+                            <TableCell colSpan={6} />
                           </TableRow>
-                        );
-                      })}
-                    {emptyRows > 0 && (
-                    <TableRow style={{ height: 33 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-              />
-            </div>
-          )
-          : <p className="text-center">No referrals found</p>}
-      </Grid>
-      <Grid
-        item
-        xs={12}
-      >
-        <div>
-          <p className="text-center">Referral Link</p>
-          <div className="borderAddress">
-            <p className="text-center">
-              https://www.localrunes.com/signup?referredby=
-              {user.username}
-            </p>
-            {
+                          )}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                    <TablePagination
+                      rowsPerPageOptions={[5, 10, 25]}
+                      component="div"
+                      count={rows.length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      onChangePage={handleChangePage}
+                      onChangeRowsPerPage={handleChangeRowsPerPage}
+                    />
+                  </div>
+                )
+                : <p className="text-center">No referrals found</p>}
+            </Grid>
+            <Grid
+              item
+              xs={12}
+            >
+              <div>
+                <p className="text-center">Referral Link</p>
+                <div className="borderAddress">
+                  <p className="text-center">
+                    https://www.localrunes.com/signup?referredby=
+                    {user.username}
+                  </p>
+                  {
             copySuccessful
               ? (
                 <p className="text-center" style={{ color: 'green' }}>
@@ -318,25 +355,32 @@ const Referrals = (props) => {
                 </p>
               ) : null
           }
-            <Tooltip title="Copy Referral Link" aria-label="show">
-              <Button
+                  <Tooltip title="Copy Referral Link" aria-label="show">
+                    <Button
                       // className="borderAddress copyAddressButton"
-                variant="contained"
-                color="primary"
-                fullWidth
+                      variant="contained"
+                      color="primary"
+                      fullWidth
                       // style={{ padding: 0, float: 'right' }}
-                onClick={copyToClipboard}
-              >
+                      onClick={copyToClipboard}
+                    >
 
-                <FileCopyIcon />
-                Copy
-              </Button>
-            </Tooltip>
-          </div>
-        </div>
-      </Grid>
+                      <FileCopyIcon />
+                      Copy
+                    </Button>
+                  </Tooltip>
+                </div>
+              </div>
+            </Grid>
+          </>
+        )}
+
     </Grid>
   )
 }
 
-export default connect()(Referrals);
+const mapStateToProps = (state) => ({
+  buyReferralLink: state.buyReferralLink,
+})
+
+export default withRouter(connect(mapStateToProps, null)(Referrals));

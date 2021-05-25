@@ -118,6 +118,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: true,
     },
+    referralState: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    referralCode: {
+      type: DataTypes.STRING,
+      defaultValue: null,
+    },
   };
 
   // 2: The model options.

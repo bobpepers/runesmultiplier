@@ -13,6 +13,7 @@ import createWithdraw from "./createWithdraw";
 import tfa from "./tfa";
 import theme from './changeTheme';
 import price from './price';
+import buyReferralLink from './buyReferralLink';
 
 
 import alert from "./alert";
@@ -99,16 +100,12 @@ const rootReducer = combineReducers({
   activity: activity,
   recentUserActivity: recentUserActivity,
   uploadAvatar: uploadAvatar,
+  
   //createReport: createReport,
 
   adminWithdrawals: adminWithdrawals,
   adminUserList: adminUserList,
   adminUser: adminUser,
-  adminPublishers: adminPublishers,
-  adminBanners: adminBanners,
-  adminReviewBanners: adminReviewBanners,
-  adminReviewPublishers: adminReviewPublishers,
-  adminDomains: adminDomains,
   adminCountries: adminCountries,
   adminCurrencies: adminCurrencies,
   adminPaymentMethods: adminPaymentMethods,
@@ -136,10 +133,6 @@ const rootReducer = combineReducers({
   currencies: currencies,
   postAd: postAd,
   trade: trade,
-  tradeSecond: tradeSecondStep,
-  currentTrade: currentTrade,
-  cancelTrade: cancelTrade,
-  acceptTrade: acceptTrade,
   message: message,
   countries: countries,
   myAds: myAds,
@@ -150,9 +143,7 @@ const rootReducer = combineReducers({
   createUserFeedback: createUserFeedback,
   removeUserFeedback: removeUserFeedback,
   startTrade: startTrade,
-  referralContestRewards: referralContestRewards,
-  referralContestStats: referralContestStats,
-  referralContests: referralContests,
+  buyReferralLink: buyReferralLink,
   
 });
 

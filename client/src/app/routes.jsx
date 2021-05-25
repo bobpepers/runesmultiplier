@@ -61,6 +61,8 @@ import TradeCanceled from './views/TradeCanceled';
 import Settings from './views/Settings';
 import Activity from './views/Activity';
 import ReferralContest from './views/ReferralContest';
+import Referral from './views/Referral';
+import Games from './views/Games';
 
 const Routes = (props) => {
   const {
@@ -136,6 +138,14 @@ const Routes = (props) => {
         component={requireAuth(withTracker(UserList))}
       />
 
+      <Route
+        path="/referral"
+        component={withTracker(Referral)}
+      />
+      <Route
+        path="/games"
+        component={withTracker(Games)}
+      />
       <Route
         path="/aboutus"
         component={withTracker(AboutUs)}

@@ -37,9 +37,6 @@ import MobileNav from '../assets/images/mobileNav.svg';
 import Notifications from './Notifications';
 import {
   getPendingWithdrawalCount,
-  getPendingIdentityCount,
-  getPendingDisputeCount,
-
 } from '../actions/adminCounts';
 
 // import 'bootstrap/dist/css/bootstrap.css';
@@ -52,8 +49,6 @@ const Header = (props) => {
     authenticated,
     user,
     adminPendingWithdrawalsCount,
-    adminPendingIdentityCount,
-    adminPendingDisputeCount,
   } = props;
   const heightRef = useRef(null);
   const [ref, setRef] = useState(null);
@@ -89,18 +84,14 @@ const Header = (props) => {
   useEffect(() => {
     if (user && user.role === 4) {
       dispatch(getPendingWithdrawalCount());
-      dispatch(getPendingIdentityCount());
-      dispatch(getPendingDisputeCount());
       const interval = setInterval(() => {
         dispatch(getPendingWithdrawalCount());
-        dispatch(getPendingIdentityCount());
-        dispatch(getPendingDisputeCount());
       }, 1 * 60 * 1000);
       return () => clearInterval(interval);
     }
   }, [user]);
 
-  useEffect(() => { }, [adminPendingWithdrawalsCount, adminPendingDisputeCount]);
+  useEffect(() => { }, [adminPendingWithdrawalsCount]);
 
   useEffect(() => {
     setHeight(heightRef.current.clientHeight);
@@ -117,13 +108,13 @@ const Header = (props) => {
   };
   const getCurrentLng = () => i18n.language || window.localStorage.i18nextLng || '';
   const countryCode = (country) => {
-    if (country == 'pt') {
+    if (country === 'pt') {
       return 'br';
     }
-    if (country == 'en') {
+    if (country === 'en') {
       return 'us';
     }
-    if (country == 'nl') {
+    if (country === 'nl') {
       return 'nl';
     }
   }
@@ -166,7 +157,7 @@ const Header = (props) => {
         className="navbar navbar-default"
         expand="lg"
       >
-        <Link to={authenticated ? '/' : '/'} className="nav-link">LocalRunes.com</Link>
+        <Link to={authenticated ? '/' : '/'} className="nav-link">RunesMultiplier.com</Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -181,37 +172,16 @@ const Header = (props) => {
           <Nav className="mr-auto rNavbar">
             <Link
               className="nav-link"
-              to="/buy-runes"
+              to="/games"
             >
-              Buy RUNES
+              Games
             </Link>
             <Link
               className="nav-link"
-              to="/sell-runes"
+              to="/referral"
             >
-              Sell RUNES
+              Referral
             </Link>
-            {
-              authenticated
-                 && (
-                 <>
-                   <Link
-                     className="nav-link"
-                     to="/post-ad"
-                   >
-                     Post a Trade
-                   </Link>
-
-                 </>
-                 )
-            }
-            <Link
-              className="nav-link"
-              to="/contest"
-            >
-              Referral Contest
-            </Link>
-
           </Nav>
           <ul>
             {
@@ -244,9 +214,7 @@ const Header = (props) => {
                     >
                       <Badge
                         badgeContent={adminPendingWithdrawalsCount
-                        && Number(adminPendingDisputeCount)
-                        + Number(adminPendingWithdrawalsCount)
-                        + Number(adminPendingIdentityCount)}
+                        && Number(adminPendingWithdrawalsCount)}
                         color="secondary"
                       >
                         Admin
@@ -301,22 +269,6 @@ const Header = (props) => {
                           <Link
                             style={{ color: '#000' }}
                             className="nav-link"
-                            to="/admin/contestrewards"
-                          >
-                            <AccountBalanceWalletIcon />
-                            {' '}
-                            Contest Rewards
-                          </Link>
-                        </div>
-                      </MenuItem>
-
-                      <MenuItem
-                        onClick={handleCloseAdminMenu}
-                      >
-                        <div>
-                          <Link
-                            style={{ color: '#000' }}
-                            className="nav-link"
                             to="/admin/mail"
                           >
                             <AccountBalanceWalletIcon />
@@ -340,28 +292,6 @@ const Header = (props) => {
                       </MenuItem>
                       <MenuItem onClick={handleCloseAdminMenu}>
                         <div>
-                          <Link style={{ color: '#000' }} className="nav-link" to="/admin/identity/pending">
-                            <SettingsIcon />
-                            {' '}
-                            Pending Identity (
-                            {adminPendingIdentityCount || 0}
-                            )
-                          </Link>
-                        </div>
-                      </MenuItem>
-                      <MenuItem onClick={handleCloseAdminMenu}>
-                        <div>
-                          <Link style={{ color: '#000' }} className="nav-link" to="/admin/disputes/pending">
-                            <SettingsIcon />
-                            {' '}
-                            Pending Disputes (
-                            {adminPendingDisputeCount || 0}
-                            )
-                          </Link>
-                        </div>
-                      </MenuItem>
-                      <MenuItem onClick={handleCloseAdminMenu}>
-                        <div>
                           <Link style={{ color: '#000' }} className="nav-link" to="/admin/withdrawals">
                             <SettingsIcon />
                             {' '}
@@ -375,15 +305,6 @@ const Header = (props) => {
                             <SettingsIcon />
                             {' '}
                             Deposits
-                          </Link>
-                        </div>
-                      </MenuItem>
-                      <MenuItem onClick={handleCloseAdminMenu}>
-                        <div>
-                          <Link style={{ color: '#000' }} className="nav-link" to="/admin/trades">
-                            <SettingsIcon />
-                            {' '}
-                            Trades
                           </Link>
                         </div>
                       </MenuItem>
@@ -411,15 +332,6 @@ const Header = (props) => {
                             <DashboardIcon />
                             {' '}
                             Currencies
-                          </Link>
-                        </div>
-                      </MenuItem>
-                      <MenuItem onClick={handleCloseAdminMenu}>
-                        <div>
-                          <Link style={{ color: '#000' }} className="nav-link" to="/admin/paymentmethods">
-                            <SettingsIcon />
-                            {' '}
-                            Payment Methods
                           </Link>
                         </div>
                       </MenuItem>
@@ -482,32 +394,6 @@ const Header = (props) => {
                               <AccountCircleIcon />
                               {' '}
                               My Account
-                            </Link>
-                          </div>
-                        </MenuItem>
-                        <MenuItem onClick={handleCloseUserMenu}>
-                          <div>
-                            <Link
-                              style={{ color: '#000' }}
-                              className="nav-link"
-                              to={`/public_profile/${user && user.username}`}
-                            >
-                              <FaceIcon />
-                              {' '}
-                              Public Profle
-                            </Link>
-                          </div>
-                        </MenuItem>
-                        <MenuItem onClick={handleCloseUserMenu}>
-                          <div>
-                            <Link
-                              style={{ color: '#000' }}
-                              className="nav-link"
-                              to="/advertisements"
-                            >
-                              <DashboardIcon />
-                              {' '}
-                              Advertisements
                             </Link>
                           </div>
                         </MenuItem>
@@ -640,8 +526,6 @@ function mapStateToProps(state) {
     authenticated: state.auth.authenticated,
     user: state.user.data,
     adminPendingWithdrawalsCount: state.adminPendingWithdrawalsCount.data,
-    adminPendingIdentityCount: state.adminPendingIdentityCount.data,
-    adminPendingDisputeCount: state.adminPendingDisputeCount.data,
   };
 }
 

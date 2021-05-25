@@ -286,29 +286,6 @@ const Profile = (props) => {
           </div>
         </div>
         <div className="text-center">
-          <h3>Store Information</h3>
-          <p>
-            {user && user.open_store ? (
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={handleChangeStoreStatus}
-              >
-                Close Your Store
-              </Button>
-            )
-              : (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleChangeStoreStatus}
-                >
-                  Open Your Store
-                </Button>
-              )}
-
-          </p>
-          {user && user.open_store ? (<p style={{ color: 'green' }}>Store Open</p>) : (<p style={{ color: 'red' }}>Store Closed</p>)}
           <p>
             User Name:
             {' '}
@@ -327,28 +304,9 @@ const Profile = (props) => {
             {user ? user.email : ''}
           </p>
           <p>
-            Phone Number:
-            {' '}
-            {user ? `+${user.phoneNumber}` : ''}
-          </p>
-          <p>
             Account Created:
             {' '}
             {user ? user.createdAt : ''}
-          </p>
-          <p>
-            Trust: Trusted By
-            {' '}
-            {user && user.trustedUsers ? user.trustedUsers.length : '0' }
-            {' '}
-            people
-          </p>
-          <p>
-            Blocks: Blocked by
-            {' '}
-            {user && user.blockedUsers ? user.blockedUsers.length : '0' }
-            {' '}
-            people
           </p>
         </div>
       </Grid>
@@ -385,113 +343,6 @@ const Profile = (props) => {
                   </Button>
                 </Grid>
               </form>
-            </Grid>
-            <Grid item xs={12}>
-              <h3>Update Password</h3>
-              <Button
-                type="button"
-                variant="contained"
-                color="primary"
-              >
-                Change Password
-              </Button>
-            </Grid>
-            <Grid item xs={12}>
-              <h3>Verification</h3>
-              <p>
-                E-mail verified:
-                {' '}
-                <span className="color-green">Verified</span>
-              </p>
-              <p>
-                Identity verified:
-                {' '}
-                {user && user.identityVerified === 'init' && (
-                  <Button
-                    type="button"
-                    variant="contained"
-                    color="primary"
-                    onClick={handleOpenIdentityVerify}
-                  >
-                    Verify Identity
-                  </Button>
-                )}
-                {user && user.identityVerified === 'rejected' && (
-                  <>
-                    <Button
-                      type="button"
-                      variant="contained"
-                      color="primary"
-                      onClick={handleOpenIdentityVerify}
-                    >
-                      Verify Identity
-                    </Button>
-                    <p className="color-red">Rejected</p>
-                  </>
-                )}
-                {user && user.identityVerified === 'pending' && (
-                  <span className="color-brown">Pending</span>
-                )}
-                {user && user.identityVerified === 'accepted' && (
-                  <span className="color-green">Verified</span>
-                )}
-
-              </p>
-              <p>
-                Phone Number Verified:
-                {' '}
-                {user && user.phoneNumberVerified ? (<span className="color-green">Verified</span>) : (
-                  <Button
-                    type="button"
-                    variant="contained"
-                    color="primary"
-                    onClick={handleOpenPhoneVerify}
-                  >
-                    Add PhoneNumber
-                  </Button>
-                )}
-
-              </p>
-              <div>
-
-                <Modal
-                  aria-labelledby="transition-modal-title"
-                  aria-describedby="transition-modal-description"
-                  className={classes.modal}
-                  open={openIdentity}
-                  onClose={handleCloseIdentityVerify}
-                  closeAfterTransition
-                  BackdropComponent={Backdrop}
-                  BackdropProps={{
-                    timeout: 500,
-                  }}
-                >
-                  <Fade in={openIdentity}>
-                    <div className={classes.paper}>
-                      <IdentityVerify />
-                    </div>
-                  </Fade>
-                </Modal>
-
-                <Modal
-                  aria-labelledby="transition-modal-title"
-                  aria-describedby="transition-modal-description"
-                  className={classes.modal}
-                  open={open}
-                  onClose={handleClosePhoneVerify}
-                  closeAfterTransition
-                  BackdropComponent={Backdrop}
-                  BackdropProps={{
-                    timeout: 500,
-                  }}
-                >
-                  <Fade in={open}>
-                    <div className={classes.paper}>
-                      <PhoneVerify />
-                    </div>
-                  </Fade>
-                </Modal>
-              </div>
             </Grid>
           </Grid>
         </div>
@@ -585,9 +436,6 @@ const Profile = (props) => {
         </Modal>
 
       </div>
-      <Referrals
-        user={user || []}
-      />
     </Grid>
   )
 }

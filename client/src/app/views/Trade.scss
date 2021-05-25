@@ -1,0 +1,37 @@
+.container {
+  width: 100%;
+  margin: 0 auto;
+  border: solid 1px #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+}
+  
+.chat-container {
+    height: 400px;
+  overflow: auto;
+  width: 100%;
+  //transform: rotate(180deg);
+  //direction: rtl;
+}
+  
+  .message{
+    border-bottom: solid 1px #ccc;
+    padding: 20px;
+    //transform: rotate(180deg);
+    //direction :ltr;
+}
+    
+    .avatar
+      {
+          float: left;
+      margin-right: 5px;
+      width: 50px;
+      height: 50px;
+    }
+    
+    .datetime
+      {
+          float: right;
+      color: rgb(255, 255, 255);
+    }
+

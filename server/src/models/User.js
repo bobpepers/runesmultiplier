@@ -93,14 +93,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
-    webslot_amount: {
-      type: DataTypes.SMALLINT,
-      defaultValue: 2,
-    },
-    bannerslot_amount: {
-      type: DataTypes.SMALLINT,
-      defaultValue: 1,
-    },
     tfa: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
@@ -113,63 +105,10 @@ module.exports = (sequelize, DataTypes) => {
     //  type: Sequelize.BOOLEAN,
     //  defaultValue: false,
     // },
-    surf_count: {
-      type: DataTypes.BIGINT,
-      defaultValue: 0,
-    },
-    click_count: {
-      type: DataTypes.BIGINT,
-      defaultValue: 0,
-    },
-    jackpot_tickets: {
-      type: DataTypes.BIGINT,
-      defaultValue: 0,
-    },
-    lastClicked: {
-      type: DataTypes.DATE,
-    },
     avatar_path: {
       type: DataTypes.STRING,
       defaultValue: 'avatar.png',
       allowNull: false,
-    },
-    phoneNumber: {
-      type: DataTypes.BIGINT,
-      defaultValue: 0,
-    },
-    phoneNumberVerified: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    identityFront: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    identityBack: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    identitySelfie: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    identityVerified: {
-      type: DataTypes.ENUM,
-      defaultValue: 'init',
-      values: [
-        'init',
-        'pending',
-        'rejected',
-        'accepted',
-      ],
-    },
-    bio: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    open_store: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
     },
     online: {
       type: DataTypes.BOOLEAN,
@@ -178,18 +117,6 @@ module.exports = (sequelize, DataTypes) => {
     lastSeen: {
       type: DataTypes.DATE,
       allowNull: true,
-    },
-    firstTrade: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    volume: {
-      type: DataTypes.BIGINT,
-      defaultValue: 0,
-    },
-    tradeCount: {
-      type: DataTypes.BIGINT,
-      defaultValue: 0,
     },
   };
 
@@ -211,32 +138,6 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   UserModel.associate = (model) => {
-    UserModel.hasMany(model.referralContest, {
-      as: 'winner_first',
-    });
-
-    UserModel.hasMany(model.referralContest, {
-      as: 'winner_second',
-    });
-
-    UserModel.hasMany(model.referralContest, {
-      as: 'winner_third',
-    });
-
-    UserModel.hasMany(model.dispute, {
-      as: 'initiator',
-      foreignKey: 'initiatorId',
-    });
-    UserModel.hasMany(model.dispute, {
-      as: 'releasedTo',
-      foreignKey: 'releasedToId',
-    });
-    UserModel.hasMany(model.messagesDispute, {
-      as: 'messagesDispute',
-    });
-    UserModel.hasMany(model.messages, {
-      as: 'messages',
-    });
 
     // UserModel.hasMany(model.bannerslot);
 
@@ -250,10 +151,6 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'earnerId',
     });
 
-    UserModel.hasMany(model.postAd, {
-      as: 'postAd',
-    });
-
     UserModel.hasMany(model.activityArchive, {
       as: 'archivedSpender',
       foreignKey: 'spenderId',
@@ -263,13 +160,6 @@ module.exports = (sequelize, DataTypes) => {
       as: 'archivedEarner',
       foreignKey: 'earnerId',
     });
-
-    // UserModel.hasMany(model.faucet);
-
-    // UserModel.hasMany(model.report);
-
-    // UserModel.hasMany(model.webslot);
-    // UserModel.hasMany(model.SurfTicket);
 
     UserModel.hasOne(model.wallet);
     UserModel.belongsTo(model.country, {
@@ -283,15 +173,6 @@ module.exports = (sequelize, DataTypes) => {
       otherKey: 'ipId',
     });
 
-    UserModel.hasMany(model.rating, {
-      foreignKey: 'userRatingId',
-      as: 'userRating',
-    });
-    UserModel.hasMany(model.rating, {
-      foreignKey: 'userRatedId',
-      as: 'userRated',
-    });
-
     UserModel.hasMany(model.Referrals, {
       foreignKey: 'referredById',
       as: 'referredBy',
@@ -299,28 +180,6 @@ module.exports = (sequelize, DataTypes) => {
     UserModel.hasMany(model.Referrals, {
       foreignKey: 'referrerID',
       as: 'referrer',
-    });
-
-    UserModel.hasMany(model.trusted, {
-      foreignKey: 'userId',
-      as: 'trustedBy',
-    });
-    UserModel.hasMany(model.trusted, {
-      foreignKey: 'trustedId',
-      as: 'trustedUsers',
-    });
-
-    UserModel.hasMany(model.blocked, {
-      foreignKey: 'userId',
-      as: 'blockedBy',
-    });
-    UserModel.hasMany(model.blocked, {
-      foreignKey: 'blockedId',
-      as: 'blockedUsers',
-    });
-    UserModel.hasMany(model.trade, {
-      foreignKey: 'userId',
-      as: 'user',
     });
   };
 

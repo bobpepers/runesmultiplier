@@ -75,14 +75,6 @@ module.exports = (sequelize, DataTypes) => {
       as: 'transaction',
       foreignKey: 'transactionId',
     });
-    ActivityModel.belongsTo(model.trade, {
-      as: 'trade',
-      foreignKey: 'tradeId',
-    });
-    ActivityModel.belongsTo(model.dispute, {
-      as: 'dispute',
-      foreignKey: 'disputeId',
-    });
   };
 
   return ActivityModel;

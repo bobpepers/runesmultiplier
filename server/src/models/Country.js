@@ -30,9 +30,6 @@ module.exports = (sequelize, DataTypes) => {
   const CountryModel = sequelize.define('country', modelDefinition, modelOptions);
 
   CountryModel.associate = (model) => {
-    CountryModel.hasMany(model.postAd, {
-      as: 'postAd',
-    });
     CountryModel.hasMany(model.user, {
       as: 'user',
     });

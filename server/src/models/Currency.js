@@ -25,9 +25,6 @@ module.exports = (sequelize, DataTypes) => {
   const CurrencyModel = sequelize.define('currency', modelDefinition, modelOptions);
 
   CurrencyModel.associate = (model) => {
-    CurrencyModel.hasMany(model.postAd, {
-      as: 'postAd',
-    });
     CurrencyModel.hasMany(model.country, {
       as: 'country',
     });

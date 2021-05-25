@@ -9,11 +9,6 @@ import {
 } from './controllers/auth';
 
 import {
-  getPhoneCode,
-  verifyPhoneCode,
-} from './controllers/verifyPhone';
-
-import {
   uploadIdentity,
 } from './controllers/identity';
 
@@ -1046,26 +1041,7 @@ const router = (app, io, pub, sub, expired_subKey, volumeInfo, onlineUsers) => {
       }
     });
 
-  app.post('/api/getphonecode',
-    IsAuthenticated,
-    insertIp,
-    rateLimiterMiddlewarePhone,
-    ensuretfa,
-    updateLastSeen,
-    getPhoneCode,
-    (req, res) => {
-      if (res.locals.error) {
-        console.log(res.locals.error);
-        res.status(401).send({
-          error: res.locals.error,
-        });
-      }
-      if (res.locals.phonecode) {
-        res.json({
-          phoneCode: res.locals.phonecode,
-        });
-      }
-    });
+
 
   app.post('/api/resend-verify-code',
     // IsAuthenticated,
@@ -1075,28 +1051,7 @@ const router = (app, io, pub, sub, expired_subKey, volumeInfo, onlineUsers) => {
     // updateLastSeen,
     resendVerification);
 
-  app.post('/api/verifyphonecode',
-    IsAuthenticated,
-    insertIp,
-    ensuretfa,
-    updateLastSeen,
-    verifyPhoneCode,
-    (req, res) => {
-      if (res.locals.error) {
-        console.log(res.locals.error);
-        res.status(401).send({
-          error: res.locals.error,
-        });
-      }
 
-      if (res.locals.verifyphonecode && res.locals.phoneNumber && res.locals.phoneNumberVerified) {
-        res.json({
-          verifyphonecode: res.locals.verifyphonecode,
-          phoneNumber: res.locals.phoneNumber,
-          phoneNumberVerified: res.locals.phoneNumberVerified,
-        });
-      }
-    });
 
   function uploadFile(req, res, next) {
     const uploads = upload.fields([{
@@ -1974,33 +1929,6 @@ const router = (app, io, pub, sub, expired_subKey, volumeInfo, onlineUsers) => {
             trade: res.locals.trade,
           });
         }
-      }
-    });
-
-  app.post('/api/trade',
-    (req, res, next) => {
-      console.log("start TRADE");
-      next();
-    },
-    IsAuthenticated,
-    isUserBanned,
-    // storeIp,
-    ensuretfa,
-    updateLastSeen,
-    fetchTrade,
-    (req, res) => {
-      console.log('API TRADE');
-      if (res.locals.error) {
-        console.log(res.locals.error);
-        res.status(401).send({
-          error: res.locals.error,
-        });
-      }
-      console.log(res.locals.trade);
-      if (res.locals.trade) {
-        res.json({
-          trade: res.locals.trade,
-        });
       }
     });
 

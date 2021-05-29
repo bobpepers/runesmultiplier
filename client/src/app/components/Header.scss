@@ -158,7 +158,7 @@ button:not(:disabled), [type="button"]:not(:disabled), [type="reset"]:not(:disab
   top: 0;
   right: 0;
   left: 0;
-  z-index: 1030;
+  z-index: 5;
 }
 .dropup, .dropright, .dropdown, .dropleft {
   position: relative;
@@ -186,7 +186,7 @@ button:not(:disabled), [type="button"]:not(:disabled), [type="reset"]:not(:disab
   position: absolute;
   top: 100%;
   right: 0;
-  z-index: 1000;
+  z-index: 5;
   display: none;
   float: left;
   min-width: 10rem;

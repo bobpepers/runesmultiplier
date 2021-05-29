@@ -1,14 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import {
   Grid,
   Button,
+  Tooltip,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Backdrop from '@material-ui/core/Backdrop';
 import { makeStyles } from '@material-ui/core/styles';
+import QRCode from 'qrcode';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+import CloseIcon from '@material-ui/icons/Close';
 import Transactions from '../components/Transactions';
 import { fetchUserData } from '../actions/user';
 
@@ -19,23 +23,103 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SimpleBackdrop = () => {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const handleClose = () => {
-    setOpen(false);
+function depositFunc(
+  open,
+  handleToggle,
+  handleClose,
+  classes,
+  id,
+  address,
+  setCopySuccessful,
+  copySuccessful,
+) {
+  let imagePath = '';
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(`${address}`);
+    setCopySuccessful(true);
   };
-  const handleToggle = () => {
-    setOpen(!open);
-  };
-
+  QRCode.toDataURL(address, (err, imageUrl) => {
+    if (err) {
+      console.log('Could not generate QR code', err);
+      return;
+    }
+    imagePath = imageUrl;
+  });
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleToggle}>
-        Show backdrop
+      <Button
+        variant="contained"
+        color="primary"
+        fullWidth
+        onClick={handleToggle}
+      >
+        Deposit
       </Button>
-      <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
-        <CircularProgress color="inherit" />
+      <Backdrop
+        className={classes.backdrop}
+        open={open}
+
+        style={{
+          zIndex: '5000',
+          // position: 'relative',
+        }}
+      >
+        <CloseIcon
+          onClick={handleClose}
+          style={{
+            cursor: 'pointer',
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            color: 'red',
+            fontSize: '75px',
+          }}
+        />
+        <Grid container>
+          <Grid
+            item
+            xs={12}
+            className="text-center"
+            style={{ display: 'block' }}
+          >
+            <img src={imagePath} alt="Deposit QR Code" />
+          </Grid>
+          <Grid
+            item
+            xs={12}
+          >
+            <div>
+              <p className="text-center">Runebase Address</p>
+              <div className="borderAddress">
+                <p className="text-center">
+                  {address}
+                </p>
+                {
+            copySuccessful
+              ? (
+                <p className="text-center" style={{ color: 'green' }}>
+                  Copied!
+                </p>
+              ) : null
+          }
+                <Tooltip title="Copy Runebase Address" aria-label="show">
+                  <Button
+                      // className="borderAddress copyAddressButton"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                      // style={{ padding: 0, float: 'right' }}
+                    onClick={copyToClipboard}
+                  >
+
+                    <FileCopyIcon />
+                    Copy
+                  </Button>
+                </Tooltip>
+              </div>
+            </div>
+          </Grid>
+        </Grid>
       </Backdrop>
     </div>
   );
@@ -47,11 +131,26 @@ const WalletContainer = (props) => {
       wallets,
     },
   } = props;
+  const classes = useStyles();
   const dispatch = useDispatch();
   useEffect(() => dispatch(fetchUserData()), [dispatch]);
   useEffect(() => {
     console.log(wallets);
   }, [dispatch]);
+  const [openDeposit, setOpenDeposit] = useState(false);
+  const [copySuccessful, setCopySuccessful] = useState(false);
+  const handleClose = () => {
+    setOpenDeposit(false);
+  };
+  const handleToggle = () => {
+    setOpenDeposit(!openDeposit);
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setCopySuccessful(false);
+    }, 10000);
+  }, [copySuccessful]) // pass `value` as a dependency
   return (
     <div className="surfContainer">
       <Grid container>
@@ -91,13 +190,18 @@ const WalletContainer = (props) => {
                 {iWallet.available + iWallet.locked}
               </Grid>
               <Grid item xs={2}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                >
-                  Deposit
-                </Button>
+                {
+                  depositFunc(
+                    openDeposit,
+                    handleToggle,
+                    handleClose,
+                    classes,
+                    iWallet.cryptocurrency.id,
+                    iWallet.addresses[0].address,
+                    setCopySuccessful,
+                    copySuccessful,
+                  )
+                }
               </Grid>
               <Grid item xs={2}>
                 <Button

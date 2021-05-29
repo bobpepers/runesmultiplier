@@ -203,29 +203,36 @@ export const signup = async (req, res, next) => {
     console.log('verificationToken');
     console.log(verificationToken);
     console.log('verificationToken');
-    const newUser = await db.user.create({
-      username,
-      password,
-      email: email.toLowerCase(),
-      firstname,
-      lastname,
-      authused: false,
-      authexpires: verificationToken.expires,
-      authtoken: verificationToken.token,
-      bio: ' ',
-    }, {
-      transaction: t,
-      lock: t.LOCK.UPDATE,
-    });
 
     const referred = await db.user.findOne({
       where: {
-        username: referredby,
+        referralCode: referredby,
       },
     });
 
+    if (!referred) {
+      return res.status(401).send({
+        error: 'VALID_REFERRAL_REQUIRED',
+      });
+    }
+
     if (referred) {
       console.log(referred);
+      const newUser = await db.user.create({
+        username,
+        password,
+        email: email.toLowerCase(),
+        firstname,
+        lastname,
+        authused: false,
+        authexpires: verificationToken.expires,
+        authtoken: verificationToken.token,
+        bio: ' ',
+      }, {
+        transaction: t,
+        lock: t.LOCK.UPDATE,
+      });
+
       const referral = await db.Referrals.create({
         referrerID: newUser.id,
         referredById: referred.id,
@@ -233,32 +240,33 @@ export const signup = async (req, res, next) => {
         transaction: t,
         lock: t.LOCK.UPDATE,
       });
-    }
 
-    const newWallet = await db.wallet.create({
-      userId: newUser.id,
-    }, {
-      transaction: t,
-      lock: t.LOCK.UPDATE,
-    });
+      const newWallet = await db.wallet.create({
+        userId: newUser.id,
+      }, {
+        transaction: t,
+        lock: t.LOCK.UPDATE,
+      });
 
-    const activity = await db.activity.create({
-      earnerId: newUser.id,
-      type: 'register',
-      ipId: res.locals.ip[0].id,
-    }, {
-      transaction: t,
-      lock: t.LOCK.UPDATE,
-    });
-
-    t.afterCommit(() => {
+      const activity = await db.activity.create({
+        earnerId: newUser.id,
+        type: 'register',
+        ipId: res.locals.ip[0].id,
+      }, {
+        transaction: t,
+        lock: t.LOCK.UPDATE,
+      });
       sendVerificationEmail(email.toLowerCase(), firstname, newUser.authtoken);
-      console.log('commited');
+
       return res.json({
         firstname,
         lastname,
         email: email.toLowerCase(),
       });
+    }
+
+    t.afterCommit(() => {
+      console.log('commited');
       // next();
     });
   });

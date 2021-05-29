@@ -53,6 +53,7 @@ export default function userReducer(
     case FETCH_USER_SUCCESS:
       console.log(action.payload);
       console.log('action.payload');
+      console.log('FETCH_USER_SUCCESS');
       return {
         ...state,
         loading: false,

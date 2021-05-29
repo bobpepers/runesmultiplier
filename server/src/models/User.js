@@ -146,13 +146,14 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   UserModel.associate = (model) => {
-
     // UserModel.hasMany(model.bannerslot);
 
     UserModel.hasMany(model.activity, {
       as: 'spender',
       foreignKey: 'spenderId',
     });
+
+    UserModel.hasMany(model.Loto100Cell);
 
     UserModel.hasMany(model.activity, {
       as: 'earner',
@@ -169,7 +170,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'earnerId',
     });
 
-    UserModel.hasOne(model.wallet);
+    UserModel.hasMany(model.wallet);
     UserModel.belongsTo(model.country, {
       as: 'country',
     });

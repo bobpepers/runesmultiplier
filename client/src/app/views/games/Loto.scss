@@ -1,0 +1,33 @@
+.lotoCellBase:before {
+	content: "";
+	float: left;
+	padding-top: 100%; 	/* initial ratio of 1:1*/
+}
+
+.lotoCellBase {
+    width: 8%;
+    //height: 100%;
+    margin: 0.5%;
+    z-index: 50;
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.LotoCell {
+    box-shadow: 3px 4px 0px 0px #1564ad;
+	background:linear-gradient(to bottom, #79bbff 5%, #378de5 100%);
+    background-color:#79bbff;
+    cursor: pointer;
+}
+
+.LotoCellHead {
+    background-color: black;
+}
+
+.LotoCell:hover {
+    background:linear-gradient(to bottom, #378de5 5%, #79bbff 100%);
+	background-color:#378de5;
+    cursor: pointer;
+}

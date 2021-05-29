@@ -241,173 +241,182 @@ const Signup = (props) => {
 
   return (
     <div className="form-container index600 shadow-w signinContainer content">
-      <Grid container alignItems="center" justify="center">
-        <Grid
-          item
-          xs={12}
-          sm={12}
-          md={8}
-          lg={4}
-          xl={4}
-        >
-          <h2 className="textCenter">Sign up</h2>
-          <form onSubmit={handleSubmit(handleFormSubmit)}>
-            <Box
-              component={Grid}
-              container
+      { !referredby
+        ? (
+          <Grid container alignItems="center" justify="center">
+            <p>You can only register with a referral link</p>
+            <p>If you do not have a link, please ask one in Runebase Telegram community</p>
+          </Grid>
+        )
+        : (
+          <Grid container alignItems="center" justify="center">
+            <Grid
               item
-              justify="center"
-              direction="column"
-              py={3}
               xs={12}
+              sm={12}
+              md={8}
+              lg={4}
+              xl={4}
             >
-              <Box
-                component={Grid}
-                p={1}
-                item
-              >
-                <Field
-                  name="username"
-                  component={renderField}
-                  type="text"
-                  placeholder="Username"
-                />
-              </Box>
-              <Box
-                component={Grid}
-                p={1}
-                item
-              >
-                <Field
-                  name="firstname"
-                  component={renderField}
-                  type="text"
-                  placeholder="First name"
-                />
-              </Box>
-              <Box
-                component={Grid}
-                p={1}
-                item
-              >
-                <Field
-                  name="lastname"
-                  component={renderField}
-                  type="text"
-                  placeholder="Last name"
-                />
-              </Box>
-              <Box
-                component={Grid}
-                p={1}
-                item
-              >
-                <Field
-                  name="email"
-                  component={renderField}
-                  type="text"
-                  placeholder="Email"
-                />
-              </Box>
-              <Box
-                component={Grid}
-                p={1}
-                item
-              >
-                <Field
-                  name="password"
-                  component={renderPasswordField}
-                  type="password"
-                  placeholder="Password"
-                />
-              </Box>
-              <Box
-                component={Grid}
-                p={1}
-                item
-              >
-                <Field
-                  name="repassword"
-                  component={renderRePasswordField}
-                  type="password"
-                  placeholder="Repeat Password"
-                />
-              </Box>
-              <Box
-                component={Grid}
-                p={1}
-                item
-              >
-                <Field
-                  name="referredby"
-                  component={renderField}
-                  type="text"
-                  placeholder="Referred By"
-                  disabled
-                  InputProps={{
-                    className: 'Mui-disabled',
-                  }}
-                />
-              </Box>
-              <Box
-                component={Grid}
-                p={1}
-                item
-              >
-                <Field
-                  name="termsAndConditions"
-                  component={Checkbox}
-                />
-              </Box>
-              <Box
-                component={Grid}
-                p={1}
-                item
-              >
-                <Field
-                  component={Captcha}
-                  change={change}
-                  name="captchaResponse"
-                />
-                <div>
-                  { props.errorMessage && props.errorMessage.signup
+              <h2 className="textCenter">Sign up</h2>
+              <form onSubmit={handleSubmit(handleFormSubmit)}>
+                <Box
+                  component={Grid}
+                  container
+                  item
+                  justify="center"
+                  direction="column"
+                  py={3}
+                  xs={12}
+                >
+                  <Box
+                    component={Grid}
+                    p={1}
+                    item
+                  >
+                    <Field
+                      name="username"
+                      component={renderField}
+                      type="text"
+                      placeholder="Username"
+                    />
+                  </Box>
+                  <Box
+                    component={Grid}
+                    p={1}
+                    item
+                  >
+                    <Field
+                      name="firstname"
+                      component={renderField}
+                      type="text"
+                      placeholder="First name"
+                    />
+                  </Box>
+                  <Box
+                    component={Grid}
+                    p={1}
+                    item
+                  >
+                    <Field
+                      name="lastname"
+                      component={renderField}
+                      type="text"
+                      placeholder="Last name"
+                    />
+                  </Box>
+                  <Box
+                    component={Grid}
+                    p={1}
+                    item
+                  >
+                    <Field
+                      name="email"
+                      component={renderField}
+                      type="text"
+                      placeholder="Email"
+                    />
+                  </Box>
+                  <Box
+                    component={Grid}
+                    p={1}
+                    item
+                  >
+                    <Field
+                      name="password"
+                      component={renderPasswordField}
+                      type="password"
+                      placeholder="Password"
+                    />
+                  </Box>
+                  <Box
+                    component={Grid}
+                    p={1}
+                    item
+                  >
+                    <Field
+                      name="repassword"
+                      component={renderRePasswordField}
+                      type="password"
+                      placeholder="Repeat Password"
+                    />
+                  </Box>
+                  <Box
+                    component={Grid}
+                    p={1}
+                    item
+                  >
+                    <Field
+                      name="referredby"
+                      component={renderField}
+                      type="text"
+                      placeholder="Referred By"
+                      disabled
+                      InputProps={{
+                        className: 'Mui-disabled',
+                      }}
+                    />
+                  </Box>
+                  <Box
+                    component={Grid}
+                    p={1}
+                    item
+                  >
+                    <Field
+                      name="termsAndConditions"
+                      component={Checkbox}
+                    />
+                  </Box>
+                  <Box
+                    component={Grid}
+                    p={1}
+                    item
+                  >
+                    <Field
+                      component={Captcha}
+                      change={change}
+                      name="captchaResponse"
+                    />
+                    <div>
+                      { props.errorMessage && props.errorMessage.signup
                 && (
                 <div className="error-container">
                   { props.errorMessage.signup }
                 </div>
                 ) }
-                </div>
-              </Box>
-              <Box
-                component={Grid}
-                p={1}
-                item
-              >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  className="btn"
-                  fullWidth
-                  size="large"
-                >
-                  Sign up
-                </Button>
-              </Box>
-              <Box
-                component={Grid}
-                p={1}
-                item
-              >
-                <div className="form-bottom">
-                  <p>Already signed up?</p>
-                  <Link className="shadow-w" to="/signin">Click here to sign in</Link>
-                </div>
-              </Box>
-            </Box>
-          </form>
-        </Grid>
-      </Grid>
+                    </div>
+                  </Box>
+                  <Box
+                    component={Grid}
+                    p={1}
+                    item
+                  >
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      className="btn"
+                      fullWidth
+                      size="large"
+                    >
+                      Sign up
+                    </Button>
+                  </Box>
+                  <Box
+                    component={Grid}
+                    p={1}
+                    item
+                  >
+                    <div className="form-bottom">
+                      <p>Already signed up?</p>
+                      <Link className="shadow-w" to="/signin">Click here to sign in</Link>
+                    </div>
+                  </Box>
+                </Box>
+              </form>
+            </Grid>
+          </Grid>
+        )}
     </div>
   )
 }

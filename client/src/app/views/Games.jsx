@@ -40,9 +40,57 @@ const Home = () => {
         container
         spacing={0}
       >
-        <Info />
-        {/* <Volume /> */}
-        {/* <Globe /> */}
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={3}
+          alignContent="center"
+          justify="center"
+          alignItems="center"
+        >
+          <p className="text-center">
+            MiniLoto 100
+          </p>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={3}
+        >
+          <p className="text-center">
+            MiniLoto 1000
+          </p>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={3}
+        >
+          <p className="text-center">
+            Loto 100
+          </p>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={3}
+        >
+          <p className="text-center">
+            Loto 1000
+          </p>
+        </Grid>
       </Grid>
     </div>
   )

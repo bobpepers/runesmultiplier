@@ -41,7 +41,7 @@ export const fetchUser = async (req, res, next) => {
       },
       {
         model: db.wallet,
-        as: 'wallet',
+        as: 'wallets',
         attributes: {
           exclude: [
             'userId',
@@ -59,6 +59,11 @@ export const fetchUser = async (req, res, next) => {
                 as: 'transactions',
               },
             ],
+          },
+          {
+            model: db.cryptocurrency,
+            as: 'cryptocurrency',
+            required: false,
           },
         ],
       },

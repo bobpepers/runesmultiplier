@@ -51,8 +51,8 @@ const FooterMenu = (props) => {
           }}
         >
           <div className="ml-5">
-            <p>Trade Cryptocurrencies Locally or Online using secure escrow service. With Low fees & many ways of payment methods for you to complete your Trade Digitally.</p>
-            <p>© All rights reserved localrunes.com</p>
+            <p>Play games and earn through referral.</p>
+            <p>© All rights reserved runesmultiplier.com</p>
           </div>
         </Box>
         <Grid
@@ -78,33 +78,33 @@ const FooterMenu = (props) => {
           xl={4}
           className="text-center"
         >
-          <h3>Follow us</h3>
+          <h3>Follow Runebase</h3>
           <p>
-            <a target="_blank" rel="noreferrer" href="https://www.facebook.com/localrunes">
+            <a target="_blank" rel="noreferrer" href="https://www.facebook.com/runebaseofficial">
               <FacebookIcon />
               {' '}
               Facebook
             </a>
           </p>
           <p>
-            <a target="_blank" rel="noreferrer" href="https://twitter.com/LocalRunes">
+            <a target="_blank" rel="noreferrer" href="https://twitter.com/Runebase_Tweet">
               <TwitterIcon />
               {' '}
               Twitter
             </a>
           </p>
           <p>
-            <a target="_blank" rel="noreferrer" href="https://t.me/localrunes">
+            <a target="_blank" rel="noreferrer" href="https://t.me/runebase_runes">
               <TelegramIcon />
               {' '}
               Telegram
             </a>
           </p>
           <p>
-            <a target="_blank" rel="noreferrer" href="mailto:support@localrunes.com">
+            <a target="_blank" rel="noreferrer" href="mailto:support@runesmultiplier.com">
               <MailIcon />
               {' '}
-              support@localrunes.com
+              support@runesmultiplier.com
             </a>
           </p>
 
@@ -126,8 +126,8 @@ const FooterMenu = (props) => {
           }}
         >
           <div className="text-center">
-            <p>Trade Cryptocurrencies Locally or Online using secure escrow service. With Low fees & many ways of payment methods for you to complete your Trade Digitally.</p>
-            <p>© All rights reserved localrunes.com</p>
+            <p>Play games and earn through referral.</p>
+            <p>© All rights reserved runesmultiplier.com</p>
           </div>
 
         </Box>

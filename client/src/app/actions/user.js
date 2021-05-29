@@ -28,6 +28,25 @@ export function fetchUserData() {
     // axios.get(`${API_URL}/user`, { headers: { authorization: user.token } })
     axios.get(`${process.env.API_URL}/user`)
       .then((response) => {
+        console.log('response');
+        console.log('response');
+        console.log('response');
+        console.log('response');
+        console.log('response');
+        console.log('response');
+        console.log('response');
+        console.log('response');
+        console.log('response');
+        console.log('response');
+        console.log('response');
+        console.log('response');
+        console.log('response');
+        console.log('response');
+        console.log('response');
+        console.log('response');
+        console.log('response');
+        console.log('response');
+        console.log(response.data);
         dispatch({
           type: FETCH_USER_SUCCESS,
           payload: response.data,

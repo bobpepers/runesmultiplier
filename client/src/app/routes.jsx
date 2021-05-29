@@ -63,6 +63,7 @@ import Activity from './views/Activity';
 import ReferralContest from './views/ReferralContest';
 import Referral from './views/Referral';
 import Games from './views/Games';
+import Loto from './views/games/Loto';
 
 const Routes = (props) => {
   const {
@@ -144,7 +145,13 @@ const Routes = (props) => {
       />
       <Route
         path="/games"
+        exact
         component={withTracker(Games)}
+      />
+      <Route
+        path="/games/loto100"
+        exact
+        component={withTracker(Loto)}
       />
       <Route
         path="/aboutus"
